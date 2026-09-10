@@ -3,6 +3,7 @@ package br.com.fiap.campusride.controller;
 import br.com.fiap.campusride.dto.CaronaRequestDTO;
 import br.com.fiap.campusride.dto.CaronaResponseDTO;
 import br.com.fiap.campusride.service.CaronaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CaronaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CaronaResponseDTO publicar(@RequestBody CaronaRequestDTO request) {
+    public CaronaResponseDTO publicar(@Valid @RequestBody CaronaRequestDTO request) {
         return service.publicarCarona(request);
     }
 
