@@ -1,6 +1,7 @@
 package br.com.fiap.campusride.dto;
 
 import br.com.fiap.campusride.enums.TipoVeiculo;
+import br.com.fiap.campusride.validation.ValidaVagasVeiculo;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
+@ValidaVagasVeiculo
 public class CaronaRequestDTO {
 
     @NotBlank(message = "O nome do motorista é obrigatório")

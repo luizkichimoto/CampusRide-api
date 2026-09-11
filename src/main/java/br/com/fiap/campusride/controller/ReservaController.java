@@ -17,7 +17,7 @@ public class ReservaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ReservaResponseDTO reservar(@Valid @RequestBody ReservaRequestDTO request) {
+    public ReservaResponseDTO reservar(@Valid  @RequestBody ReservaRequestDTO request) {
         return service.reservarVaga(request);
     }
 }
