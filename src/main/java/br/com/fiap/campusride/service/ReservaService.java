@@ -26,11 +26,13 @@ public class ReservaService {
         Carona carona = caronaRepository.findById(dto.getCaronaId())
                 .orElseThrow(() -> new RuntimeException("Carona não encontrada!"));
 
+        //Impedir reserva em carona que não seja ABERTA
+
         if (carona.getSituacao() != SituacaoCarona.ABERTA) {
             throw new RegraNegocioException("Só é possível reservar vagas em caronas com situação ABERTA.");
         }
 
-        // 2. Impedir reserva em carona lotada (sem vagas)
+        // Impedir reserva em carona lotada (sem vagas)
         if (carona.getVagasDisponiveis() <= 0) {
             throw new RegraNegocioException("Não há vagas disponíveis nesta carona.");
         }
@@ -57,5 +59,40 @@ public class ReservaService {
         dto.setDataHoraReserva(reserva.getDataHoraReserva());
         dto.setSituacao(reserva.getSituacao());
         return dto;
+    }
+
+    public ReservaResponseDTO cancelarReserva(Long id) {
+        // Busca a reserva pelo ID
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new RegraNegocioException("Reserva não encontrada!"));
+
+        Carona carona = reserva.getCarona();
+
+        // Regra de Negócio: Impedir cancelamento se a carona já foi concluída
+        if (carona.getSituacao() == SituacaoCarona.CONCLUIDA) {
+            throw new RegraNegocioException("Não é possível cancelar uma reserva de uma carona já concluída.");
+        }
+
+        //Regra extra de segurança: Evitar cancelar o que já está cancelado
+        if (reserva.getSituacao() == SituacaoReserva.CANCELADA) {
+            throw new RegraNegocioException("Esta reserva já foi cancelada anteriormente.");
+        }
+
+        // Atualiza a situação da reserva
+        reserva.setSituacao(SituacaoReserva.CANCELADA);
+
+        //Devolve a vaga para a carona
+        carona.setVagasDisponiveis(carona.getVagasDisponiveis() + 1);
+
+        // Se a carona estava lotada, agora ela volta a ficar aberta
+        if (carona.getSituacao() == SituacaoCarona.LOTADA) {
+            carona.setSituacao(SituacaoCarona.ABERTA);
+        }
+
+        // Salva tudo no banco
+        caronaRepository.save(carona);
+        Reserva reservaCancelada = reservaRepository.save(reserva);
+
+        return converterParaResponseDTO(reservaCancelada);
     }
 }

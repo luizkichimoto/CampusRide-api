@@ -20,4 +20,10 @@ public class ReservaController {
     public ReservaResponseDTO reservar(@Valid  @RequestBody ReservaRequestDTO request) {
         return service.reservarVaga(request);
     }
+
+    @PatchMapping("/{id}/cancelar")
+    @ResponseStatus(HttpStatus.OK)
+    public ReservaResponseDTO cancelar(@PathVariable Long id) {
+        return service.cancelarReserva(id);
+    }
 }
