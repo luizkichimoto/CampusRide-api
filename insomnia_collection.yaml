@@ -1,0 +1,172 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Requisições
+meta:
+  id: wrk_694288d491814b29bdbb652d506d8c25
+  created: 1789080243858
+  modified: 1789080519628
+  description: ""
+collection:
+  - url: http://localhost:8080/caronas
+    name: Post Carona
+    meta:
+      id: req_2f5dd5e9b4b14d2ba496a5e78296d3af
+      created: 1789080243981
+      modified: 1789176730955
+      isPrivate: false
+      description: ""
+      sortKey: -1789080243981
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "nomeMotorista": "Ana",
+          "origem": "Campus Paulista",
+          "destino": "Paulista",
+          "horarioPartida": "2026-09-15T22:30:00",
+          "tipoVeiculo": "MOTO",
+          "vagasTotais": 1
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/reservas
+    name: Post Reserva
+    meta:
+      id: req_4175749821d8497a863c12159053cfe4
+      created: 1789082039135
+      modified: 1789177003156
+      isPrivate: false
+      description: ""
+      sortKey: -1789082039135
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "caronaId": 1,
+          "nomePassageiro": "Marilia"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/reservas/1/cancelar
+    name: Cancelar Reserva Carona
+    meta:
+      id: req_49a4c711e4dd4abb99bbf8b3861fddc4
+      created: 1789167985830
+      modified: 1789174946748
+      isPrivate: false
+      description: ""
+      sortKey: -1789167985830
+    method: PATCH
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/caronas/1
+    name: Buscar Carona por ID
+    meta:
+      id: req_840541f1763442b39b08d89db0c29336
+      created: 1789168784093
+      modified: 1789176893480
+      isPrivate: false
+      description: ""
+      sortKey: -1789171751187
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/caronas/1/cancelar
+    name: Cancelar Carona inteira
+    meta:
+      id: req_1616c1b9e06d42c1bc74c180f613c605
+      created: 1789168987393
+      modified: 1789177185171
+      isPrivate: false
+      description: ""
+      sortKey: -1789168987393
+    method: PATCH
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/caronas
+    name: Buscar Todas as Caronas
+    meta:
+      id: req_4604ee98285248e7a627764de5fdfe09
+      created: 1789174514981
+      modified: 1789177011626
+      isPrivate: false
+      description: ""
+      sortKey: -1789174514981
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/caronas/disponiveis
+    name: Buscar Caronas Disponíveis
+    meta:
+      id: req_3ddcefda7edc4f5a9734f79fbabd28d1
+      created: 1789174731114
+      modified: 1789174841453
+      isPrivate: false
+      description: ""
+      sortKey: -1789174731114
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_2835b512a95adc1c507d5a8cf04ebd455d5879ec
+    created: 1789080243860
+    modified: 1789080243860
+environments:
+  name: Base Environment
+  meta:
+    id: env_2835b512a95adc1c507d5a8cf04ebd455d5879ec
+    created: 1789080243859
+    modified: 1789080243859
+    isPrivate: false
