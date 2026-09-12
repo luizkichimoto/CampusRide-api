@@ -23,29 +23,37 @@ public class ReservaService {
 
     public ReservaResponseDTO reservarVaga(ReservaRequestDTO dto) {
 
+        //Busca a carona
         Carona carona = caronaRepository.findById(dto.getCaronaId())
-                .orElseThrow(() -> new RuntimeException("Carona não encontrada!"));
+                .orElseThrow(() -> new RegraNegocioException("Carona não encontrada!"));
 
-        //Impedir reserva em carona que não seja ABERTA
-
+        // Trava de Segurança 1: A carona precisa estar obrigatoriamente ABERTA
         if (carona.getSituacao() != SituacaoCarona.ABERTA) {
             throw new RegraNegocioException("Só é possível reservar vagas em caronas com situação ABERTA.");
         }
 
-        // Impedir reserva em carona lotada (sem vagas)
+        // Trava de Segurança 2: Precisa ter vagas maiores que zero
         if (carona.getVagasDisponiveis() <= 0) {
             throw new RegraNegocioException("Não há vagas disponíveis nesta carona.");
         }
 
+        // Cria a reserva
         Reserva reserva = new Reserva();
         reserva.setCarona(carona);
         reserva.setNomePassageiro(dto.getNomePassageiro());
         reserva.setDataHoraReserva(LocalDateTime.now());
         reserva.setSituacao(SituacaoReserva.CONFIRMADA);
 
+        // Desconta 1 vaga na carona
         carona.setVagasDisponiveis(carona.getVagasDisponiveis() - 1);
-        caronaRepository.save(carona);
 
+        // Se esgotou as vagas, atualiza o status para LOTADA
+        if (carona.getVagasDisponiveis() == 0) {
+            carona.setSituacao(SituacaoCarona.LOTADA);
+        }
+
+        // Salva a carona atualizada a nova reserva
+        caronaRepository.save(carona);
         Reserva reservaSalva = reservaRepository.save(reserva);
 
         return converterParaResponseDTO(reservaSalva);
