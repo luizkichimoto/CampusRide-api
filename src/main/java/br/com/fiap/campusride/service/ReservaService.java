@@ -21,6 +21,17 @@ public class ReservaService {
     private final ReservaRepository reservaRepository;
     private final CaronaRepository caronaRepository;
 
+    private ReservaResponseDTO converterParaResponseDTO(Reserva reserva) {
+        ReservaResponseDTO dto = new ReservaResponseDTO();
+        dto.setId(reserva.getId());
+        dto.setCaronaId(reserva.getCarona().getId());
+        dto.setNomePassageiro(reserva.getNomePassageiro());
+        dto.setDataHoraReserva(reserva.getDataHoraReserva());
+        dto.setSituacao(reserva.getSituacao());
+        return dto;
+    }
+
+
     public ReservaResponseDTO reservarVaga(ReservaRequestDTO dto) {
 
         //Busca a carona
@@ -59,15 +70,6 @@ public class ReservaService {
         return converterParaResponseDTO(reservaSalva);
     }
 
-    private ReservaResponseDTO converterParaResponseDTO(Reserva reserva) {
-        ReservaResponseDTO dto = new ReservaResponseDTO();
-        dto.setId(reserva.getId());
-        dto.setCaronaId(reserva.getCarona().getId());
-        dto.setNomePassageiro(reserva.getNomePassageiro());
-        dto.setDataHoraReserva(reserva.getDataHoraReserva());
-        dto.setSituacao(reserva.getSituacao());
-        return dto;
-    }
 
     public ReservaResponseDTO cancelarReserva(Long id) {
         // Busca a reserva pelo ID

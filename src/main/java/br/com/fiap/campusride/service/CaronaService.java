@@ -19,6 +19,21 @@ public class CaronaService {
 
     private final CaronaRepository repository;
 
+    private CaronaResponseDTO converterParaResponseDTO(Carona carona) {
+        CaronaResponseDTO dto = new CaronaResponseDTO();
+        dto.setId(carona.getId());
+        dto.setNomeMotorista(carona.getNomeMotorista());
+        dto.setOrigem(carona.getOrigem());
+        dto.setDestino(carona.getDestino());
+        dto.setHorarioPartida(carona.getHorarioPartida());
+        dto.setTipoVeiculo(carona.getTipoVeiculo());
+        dto.setVagasTotais(carona.getVagasTotais());
+        dto.setVagasDisponiveis(carona.getVagasDisponiveis());
+        dto.setSituacao(carona.getSituacao());
+        return dto;
+    }
+
+
     public CaronaResponseDTO publicarCarona(CaronaRequestDTO dto) {
         Carona carona = new Carona();
         carona.setNomeMotorista(dto.getNomeMotorista());
@@ -52,20 +67,6 @@ public class CaronaService {
         return caronas.stream()
                 .map(this::converterParaResponseDTO)
                 .collect(Collectors.toList());
-    }
-
-    private CaronaResponseDTO converterParaResponseDTO(Carona carona) {
-        CaronaResponseDTO dto = new CaronaResponseDTO();
-        dto.setId(carona.getId());
-        dto.setNomeMotorista(carona.getNomeMotorista());
-        dto.setOrigem(carona.getOrigem());
-        dto.setDestino(carona.getDestino());
-        dto.setHorarioPartida(carona.getHorarioPartida());
-        dto.setTipoVeiculo(carona.getTipoVeiculo());
-        dto.setVagasTotais(carona.getVagasTotais());
-        dto.setVagasDisponiveis(carona.getVagasDisponiveis());
-        dto.setSituacao(carona.getSituacao());
-        return dto;
     }
 
     public CaronaResponseDTO buscarPorId(Long id) {
