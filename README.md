@@ -41,6 +41,8 @@ Abaixo estão as rotas disponíveis no sistema. Para uma visualização completa
 | **GET** | `/caronas/disponiveis` | Retorna estritamente as caronas com situação `ABERTA` | `200 OK` |
 | **GET** | `/caronas/{id}` | Busca os detalhes de uma carona e a lista de seus passageiros | `200 OK` |
 | **PATCH** | `/caronas/{id}/cancelar` | Cancela a carona inteira (e suas reservas em cascata) | `200 OK` |
+| **PATCH** | `/caronas/{id}/iniciar` | Altera a situação da carona para `EM_ANDAMENTO` | `200 OK` |
+| **PATCH** | `/caronas/{id}/concluir` | Altera a situação da carona para `CONCLUIDA` | `200 OK` |
 
 ### Reservas
 | Método | Rota | Descrição | Status de Sucesso |

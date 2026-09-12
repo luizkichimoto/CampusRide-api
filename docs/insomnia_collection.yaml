@@ -12,7 +12,7 @@ collection:
     meta:
       id: req_2f5dd5e9b4b14d2ba496a5e78296d3af
       created: 1789080243981
-      modified: 1789176730955
+      modified: 1789247863853
       isPrivate: false
       description: ""
       sortKey: -1789080243981
@@ -21,12 +21,12 @@ collection:
       mimeType: application/json
       text: |-
         {
-          "nomeMotorista": "Ana",
-          "origem": "Campus Paulista",
+          "nomeMotorista": "Celso",
+          "origem": "Campus Tatuape",
           "destino": "Paulista",
           "horarioPartida": "2026-09-15T22:30:00",
-          "tipoVeiculo": "MOTO",
-          "vagasTotais": 1
+          "tipoVeiculo": "CARRO",
+          "vagasTotais": 4
         }
     headers:
       - name: Content-Type
@@ -44,7 +44,7 @@ collection:
     meta:
       id: req_4175749821d8497a863c12159053cfe4
       created: 1789082039135
-      modified: 1789177003156
+      modified: 1789248707468
       isPrivate: false
       description: ""
       sortKey: -1789082039135
@@ -54,7 +54,7 @@ collection:
       text: |-
         {
           "caronaId": 1,
-          "nomePassageiro": "Marilia"
+          "nomePassageiro": "Gustavo"
         }
     headers:
       - name: Content-Type
@@ -67,12 +67,12 @@ collection:
         send: true
         store: true
       rebuildPath: true
-  - url: http://localhost:8080/reservas/1/cancelar
+  - url: http://localhost:8080/reservas/4/cancelar
     name: Cancelar Reserva Carona
     meta:
       id: req_49a4c711e4dd4abb99bbf8b3861fddc4
       created: 1789167985830
-      modified: 1789174946748
+      modified: 1789247934797
       isPrivate: false
       description: ""
       sortKey: -1789167985830
@@ -90,7 +90,7 @@ collection:
     meta:
       id: req_840541f1763442b39b08d89db0c29336
       created: 1789168784093
-      modified: 1789176893480
+      modified: 1789247720782
       isPrivate: false
       description: ""
       sortKey: -1789171751187
@@ -103,12 +103,12 @@ collection:
         send: true
         store: true
       rebuildPath: true
-  - url: http://localhost:8080/caronas/1/cancelar
+  - url: http://localhost:8080/caronas/2/cancelar
     name: Cancelar Carona inteira
     meta:
       id: req_1616c1b9e06d42c1bc74c180f613c605
       created: 1789168987393
-      modified: 1789177185171
+      modified: 1789236840676
       isPrivate: false
       description: ""
       sortKey: -1789168987393
@@ -149,6 +149,42 @@ collection:
       description: ""
       sortKey: -1789174731114
     method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/caronas/1/iniciar
+    name: Status EM_ANDAMENTO
+    meta:
+      id: req_0f7d9c47823c48c8a81bc99613b6a61e
+      created: 1789236645861
+      modified: 1789248777527
+      isPrivate: false
+      description: ""
+      sortKey: -1789170369290
+    method: PATCH
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/caronas/1/concluir
+    name: Status CONCLUIDA
+    meta:
+      id: req_525eebfbae8c4fc6b9b0043bc7ebe3c6
+      created: 1789236702092
+      modified: 1789248784861
+      isPrivate: false
+      description: ""
+      sortKey: -1789169678341.5
+    method: PATCH
     settings:
       renderRequestBody: true
       encodeUrl: true
