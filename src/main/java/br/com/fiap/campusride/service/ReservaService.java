@@ -38,14 +38,14 @@ public class ReservaService {
         Carona carona = caronaRepository.findById(dto.getCaronaId())
                 .orElseThrow(() -> new RegraNegocioException("Carona não encontrada!"));
 
-        // Trava de Segurança 1: A carona precisa estar obrigatoriamente ABERTA
-        if (carona.getSituacao() != SituacaoCarona.ABERTA) {
-            throw new RegraNegocioException("Só é possível reservar vagas em caronas com situação ABERTA.");
-        }
-
-        // Trava de Segurança 2: Precisa ter vagas maiores que zero
+        // Trava de Segurança: Precisa ter vagas maiores que zero
         if (carona.getVagasDisponiveis() <= 0) {
             throw new RegraNegocioException("Não há vagas disponíveis nesta carona.");
+        }
+
+        // Trava de Segurança: A carona precisa estar obrigatoriamente ABERTA
+        if (carona.getSituacao() != SituacaoCarona.ABERTA) {
+            throw new RegraNegocioException("Só é possível reservar vagas em caronas com situação ABERTA.");
         }
 
         // Cria a reserva
@@ -70,7 +70,6 @@ public class ReservaService {
         return converterParaResponseDTO(reservaSalva);
     }
 
-
     public ReservaResponseDTO cancelarReserva(Long id) {
         // Busca a reserva pelo ID
         Reserva reserva = reservaRepository.findById(id)
@@ -83,7 +82,7 @@ public class ReservaService {
             throw new RegraNegocioException("Não é possível cancelar uma reserva de uma carona já concluída.");
         }
 
-        //Regra extra de segurança: Evitar cancelar o que já está cancelado
+        //Evitar cancelar o que já está cancelado
         if (reserva.getSituacao() == SituacaoReserva.CANCELADA) {
             throw new RegraNegocioException("Esta reserva já foi cancelada anteriormente.");
         }
