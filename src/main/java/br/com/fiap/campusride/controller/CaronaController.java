@@ -49,4 +49,16 @@ public class CaronaController {
         return service.cancelarCarona(id);
     }
 
+    @PatchMapping("/{id}/iniciar")
+    @ResponseStatus(HttpStatus.OK)
+    public CaronaResponseDTO iniciar(@PathVariable Long id) {
+        return service.iniciarCarona(id);
+    }
+
+    @PatchMapping("/{id}/concluir")
+    @ResponseStatus(HttpStatus.OK)
+    public CaronaResponseDTO concluir(@PathVariable Long id) {
+        return service.concluirCarona(id);
+    }
+
 }

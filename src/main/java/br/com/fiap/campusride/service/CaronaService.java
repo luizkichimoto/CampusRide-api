@@ -2,6 +2,7 @@ package br.com.fiap.campusride.service;
 
 import br.com.fiap.campusride.dto.CaronaRequestDTO;
 import br.com.fiap.campusride.dto.CaronaResponseDTO;
+import br.com.fiap.campusride.dto.ReservaResponseDTO;
 import br.com.fiap.campusride.enums.SituacaoCarona;
 import br.com.fiap.campusride.enums.SituacaoReserva;
 import br.com.fiap.campusride.exception.RegraNegocioException;
@@ -30,6 +31,22 @@ public class CaronaService {
         dto.setVagasTotais(carona.getVagasTotais());
         dto.setVagasDisponiveis(carona.getVagasDisponiveis());
         dto.setSituacao(carona.getSituacao());
+
+        // Converte a lista de entidades Reserva para uma lista de ReservaResponseDTO, se houver
+        if (carona.getReservas() != null) {
+            List<ReservaResponseDTO> reservasDto = carona.getReservas().stream()
+                    .map(reserva -> {
+                        ReservaResponseDTO rDto = new ReservaResponseDTO();
+                        rDto.setId(reserva.getId());
+                        rDto.setNomePassageiro(reserva.getNomePassageiro());
+                        rDto.setDataHoraReserva(reserva.getDataHoraReserva());
+                        rDto.setSituacao(reserva.getSituacao());
+                        rDto.setCaronaId(carona.getId());
+                        return rDto;
+                    })
+                    .collect(Collectors.toList());
+            dto.setReservas(reservasDto);
+        }
         return dto;
     }
 
@@ -107,6 +124,34 @@ public class CaronaService {
         Carona caronaCancelada = repository.save(carona);
 
         return converterParaResponseDTO(caronaCancelada);
+    }
+
+    public CaronaResponseDTO iniciarCarona(Long id) {
+        Carona carona = repository.findById(id)
+                .orElseThrow(() -> new RegraNegocioException("Carona não encontrada!"));
+
+        // Só pode iniciar se estiver ABERTA ou LOTADA
+        if (carona.getSituacao() != SituacaoCarona.ABERTA && carona.getSituacao() != SituacaoCarona.LOTADA) {
+            throw new RegraNegocioException("Apenas caronas com situação ABERTA ou LOTADA podem ser iniciadas.");
+        }
+
+        carona.setSituacao(SituacaoCarona.EM_ANDAMENTO);
+        Carona caronaSalva = repository.save(carona);
+        return converterParaResponseDTO(caronaSalva);
+    }
+
+    public CaronaResponseDTO concluirCarona(Long id) {
+        Carona carona = repository.findById(id)
+                .orElseThrow(() -> new RegraNegocioException("Carona não encontrada!"));
+
+        // Só pode concluir se estiver EM_ANDAMENTO
+        if (carona.getSituacao() != SituacaoCarona.EM_ANDAMENTO) {
+            throw new RegraNegocioException("Apenas caronas que estão EM_ANDAMENTO podem ser concluídas.");
+        }
+
+        carona.setSituacao(SituacaoCarona.CONCLUIDA);
+        Carona caronaSalva = repository.save(carona);
+        return converterParaResponseDTO(caronaSalva);
     }
 
 

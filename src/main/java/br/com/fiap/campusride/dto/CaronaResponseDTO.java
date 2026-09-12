@@ -5,6 +5,7 @@ import br.com.fiap.campusride.enums.TipoVeiculo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class CaronaResponseDTO {
@@ -17,4 +18,5 @@ public class CaronaResponseDTO {
     private Integer vagasTotais;
     private Integer vagasDisponiveis;
     private SituacaoCarona situacao;
+    private List<ReservaResponseDTO> reservas;
 }
