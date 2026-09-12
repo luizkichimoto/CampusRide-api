@@ -23,10 +23,18 @@ public class CaronaController {
         return service.publicarCarona(request);
     }
 
+    //Rota para ver TODAS as caronas
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CaronaResponseDTO> listar() {
-        return service.listarCaronas();
+    public List<CaronaResponseDTO> listarTodas() {
+        return service.listarTodasCaronas();
+    }
+
+    //Rota específica para ver apenas as caronas DISPONÍVEIS
+    @GetMapping("/disponiveis")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CaronaResponseDTO> listarDisponiveis() {
+        return service.listarCaronasDisponiveis();
     }
 
     @GetMapping("/{id}")
@@ -40,4 +48,5 @@ public class CaronaController {
     public CaronaResponseDTO cancelar(@PathVariable Long id) {
         return service.cancelarCarona(id);
     }
+
 }

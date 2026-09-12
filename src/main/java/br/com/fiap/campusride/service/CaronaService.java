@@ -36,9 +36,19 @@ public class CaronaService {
         return converterParaResponseDTO(caronaSalva);
     }
 
-    public List<CaronaResponseDTO> listarCaronas() {
+    public List<CaronaResponseDTO> listarTodasCaronas() {
         List<Carona> caronas = repository.findAll();
 
+        return caronas.stream()
+                .map(this::converterParaResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<CaronaResponseDTO> listarCaronasDisponiveis() {
+        // Busca caronas que estão com a situação ABERTA
+        List<Carona> caronas = repository.findBySituacao(SituacaoCarona.ABERTA);
+
+        // Converte cada Carona em CaronaResponseDTO
         return caronas.stream()
                 .map(this::converterParaResponseDTO)
                 .collect(Collectors.toList());
@@ -97,4 +107,6 @@ public class CaronaService {
 
         return converterParaResponseDTO(caronaCancelada);
     }
+
+
 }
